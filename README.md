@@ -28,9 +28,6 @@ This project compares two popular AI platforms, **DeepSeek** and **ChatGPT**, ac
 - **Statistical Analysis:** Correlation coefficient for behavioral insight  
 - **Storytelling:** Insight-based dashboards and comparisons
 
-## 🖼️ Dashboard Preview
-![Dashboard Screenshot](Screenshots/ai_dashboard_overview.png)
-
 ## 🚀 Business Impact (Simulated)
 This project simulates how business intelligence teams can compare platform performance in SaaS products. The dashboard helps CX teams and product managers track satisfaction KPIs, reduce churn, and optimize AI response logic.
 
