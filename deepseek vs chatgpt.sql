@@ -1,68 +1,63 @@
-select ai_platform,count(ai_platform),query_type from deepseek_vs_chatgpt
-group by Query_type,ai_platform;
-select sum(active_users) from deepseek_vs_chatgpt;
+#📊 AI Platform Comparative Analysis: DeepSeek vs ChatGPT
+# Raw Dataset Overview
+
 select * from deepseek_vs_chatgpt;
-# Q1-
+# Q1- Top AI Platforms by Total Active Users
 select ai_platform,sum(active_users) as Total_Active_Users
 from deepseek_vs_chatgpt
 group by ai_platform
 order by Total_Active_Users desc;
-# Q2-
+# Q2--Monthly Churn Rate Comparison Across Platforms
 select ai_platform,month_num,avg(daily_churn_rate)
 from deepseek_vs_chatgpt
 group by ai_platform,month_num
 order by avg(daily_churn_rate) desc;
-#Q3--
+#Q3--Average Churn Rate by AI Model and Weekday
 select ai_model_version,weekday,avg(daily_churn_rate)
 from deepseek_vs_chatgpt
 group by ai_model_version,weekday
 order by avg(daily_churn_rate) desc;
-#Q4--
+#Q4--Average Churn Rate per AI Platform
 select ai_platform,avg(daily_churn_rate)
 from deepseek_vs_chatgpt
 group by ai_platform;
-#Q5--
+#Q5-- Top 3 Dates with Maximum User Churn
 select date,sum(churned_users)
 from deepseek_vs_chatgpt
 group by date 
 order by sum(churned_users) desc limit 3;
-#Q6--
+#Q6--Average Retention Rate by Platform
 select ai_platform,round(avg(retention_rate),2)
 from deepseek_vs_chatgpt
 group by ai_platform;
-#Q7--
+#Q7--Regions with High Return Frequency (>=10)
 select region,max(user_return_frequency)
 from deepseek_vs_chatgpt
 group by region 
 having max(user_return_frequency)>=10
 order by max(user_return_frequency) desc ,region;
-#Q8--
+#Q8--Device-Type Wise Return Frequency Stats
 select Device_Type,max(user_return_frequency),min(user_return_frequency),avg(user_return_frequency)
 from deepseek_vs_chatgpt
 group by Device_Type
 order by avg(user_return_frequency) desc;
-#Q9--
+#Q9--Average Session Duration by Device Type
 select Device_Type,avg(Session_duration_sec)
 from deepseek_vs_chatgpt
 group by Device_Type
 order by avg(Session_duration_sec) desc;
-#Q10--
+#Q10--Language-Wise Average User Rating
 select Language,round(avg(User_Rating),2)
 from deepseek_vs_chatgpt
 group by Language
 order by round(avg(User_Rating),2) desc;
-#Q11--
+#Q11--Devices with Longest Sessions and Highest Return Rate
 select Device_Type,max(session_duration_sec),max(user_return_frequency)
 from deepseek_vs_chatgpt
 group by Device_Type
 order by Device_type limit 1;
-#Q12--
-select Query_Type,AI_platform,round(avg(Response_Accuracy),2),round(avg(User_Experience_Score),2), 
-dense_rank() over(order by query_type) rn
-from deepseek_vs_chatgpt
-group by Query_Type,AI_Platform
-order by avg(Response_Accuracy) desc,avg(User_Experience_Score) desc;
-# 
+#🤖 Platform Comparison Metrics
+#Q12--Best Platform per Query Type Based on Accuracy & UX
 SELECT *
 FROM (
     SELECT 
@@ -80,14 +75,7 @@ FROM (
 WHERE rn = 1
 ORDER BY avg_accuracy DESC, avg_experience DESC;
 
-# Q13-- top weekdays with most active users 
-select weekday,AI_Platform,Active_users from (select weekday,AI_platform,max(Active_Users) as Active_users,row_number()over(partition by weekday order by max(Active_Users) desc) as rn
-from deepseek_vs_chatgpt
-group by weekday,AI_Platform
-Order by weekday ) ranked 
-where rn=1
-order by weekday desc limit 3;
-#--alternative
+# Q13-- Top Weekdays with Maximum Users per Platform 
 SELECT *
 FROM (
     SELECT 
@@ -106,20 +94,20 @@ WHERE rn = 1
 ORDER BY Weekday DESC
 LIMIT 3;
 
-# Q14--
+# Q14--Top 3 Topics per Query Type with Highest Customer Support Interactions
 select query_type,Topic_category,cmi from(select query_type,Topic_category,max(Customer_Support_Interactions) as cmi,row_number()over(partition by query_type order by max(Customer_Support_Interactions)desc) as rn
 from deepseek_vs_chatgpt
 group by Query_type,Topic_category) as ranked 
 where rn<=3
 order by Query_Type,cmi desc;
 
-# Q15--
+# Q15--Distribution of Response Time Categories per Platform
 
 select AI_Platform,Response_Time_Category,count(*) as Category_Count,round(100*count(*)/sum(count(*)) over (partition by AI_platform),2) As Percentage_Distribution
 from deepseek_vs_chatgpt
 Group By Ai_Platform,Response_Time_Category;
 
-#Q16--correlation between response speed accuracy and 
+#Q16--Correlation Between Response Speed and User Rating
 select 
       round((count(*) * sum(response_speed_sec*user_rating)-sum(response_speed_sec)*sum(user_rating))/
       sqrt((count(*)*sum(response_speed_sec*response_speed_sec)-power(sum(response_speed_sec),2))*(count(*)*sum(user_rating*user_rating)-power(sum(user_rating),2))),2) as pearson_correlation
@@ -127,18 +115,18 @@ from deepseek_vs_chatgpt
 where response_speed_sec is not null and user_rating is not null;
 #--slower responses decrease the rating with slower rate of correlation -0.46
 
-#Q16--
+#Q17--Input Text Length vs Average Response Tokens
 select Input_Text_length,round(avg(Response_Tokens),2)
 from deepseek_vs_chatgpt
 group by Input_text_length
 order by Input_Text_length;
 
-#Q17--
+#Q18--Percentage of Users Needing Correction (per Platform)
  select AI_Platform,Correction_Needed,round(100*count(*)/sum(count(*))over(partition by AI_Platform),2) as Percentage_Of_Users_Needed_Or_Not
  from deepseek_vs_chatgpt
  group by AI_platform,Correction_Needed;
  
- #Q18--
+ #Q19--Models with High Accuracy & Minimal Correction Requirement
  
  select AI_model_Version,Correction_needed ,round(Avg(Response_Accuracy),2) as Accuracy,
  case
