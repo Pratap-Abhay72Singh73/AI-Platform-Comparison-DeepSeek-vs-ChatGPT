@@ -1,4 +1,4 @@
-# 🤖 AI Platform Comparison Dashboard – DeepSeek vs ChatGPT
+# 🤖 DeepSeek vs ChatGPT-Churn and Retention Analysis.
 
 ## 📊 Project Overview
 This project compares two popular AI platforms, **DeepSeek** and **ChatGPT**, across 15+ key performance indicators (KPIs). The aim was to analyze platform performance, user behavior, and satisfaction metrics to determine which AI tool performed better under various usage conditions.
