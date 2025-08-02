@@ -24,7 +24,7 @@ This project compares two popular AI platforms, **DeepSeek** and **ChatGPT**, ac
 
 ## 🛠 Tools & Techniques Used
 - **SQL:** Data aggregation, `CTE`, `ROW_NUMBER()`, `LEAD()`, and window functions  
-- **Excel:** Pivot Tables, Charts, Slicers, KPI Cards  
+- **Power BI:** Pivot Tables, Charts, Slicers, KPI Cards  
 - **Statistical Analysis:** Correlation coefficient for behavioral insight  
 - **Storytelling:** Insight-based dashboards and comparisons
 
