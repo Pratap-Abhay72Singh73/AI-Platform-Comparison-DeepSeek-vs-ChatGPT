@@ -23,7 +23,7 @@ This project compares two popular AI platforms, **DeepSeek** and **ChatGPT**, ac
 - ❗ Identified a **moderate negative correlation (-0.46)** between response speed and user satisfaction — slower replies led to lower ratings across both platforms.
 
 ## 🛠 Tools & Techniques Used
-- **SQL:** Data aggregation, `CTE`, `ROW_NUMBER()`, `LEAD()`, and window functions  
+- **SQL:** Data aggregation, `CTE`, `ROW_NUMBER()`,  and window functions  
 - **Power BI:** Pivot Tables, Charts, Slicers, KPI Cards  
 - **Statistical Analysis:** Correlation coefficient for behavioral insight  
 - **Storytelling:** Insight-based dashboards and comparisons
